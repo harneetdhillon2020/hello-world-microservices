@@ -14,7 +14,7 @@
 
 4. Start Minicube 
     ```bash 
-    mini cube start
+    minikube start
 
 
 5. Update the `world-deployment.yaml` and `hello-deployment.yaml` files with your Docker Hub username for the image.
@@ -54,11 +54,17 @@ type ```/world``` at the end of the url and you will see a "World" message
 1. Enable port forwarding on separate terminals
     ```bash 
     kubectl port-forward service/hello-service 5000:5000
-    kubectl port-forward service/hello-service 5000:5000```
-
+    kubectl port-forward svc/world-service 5001:5001        
 2. On a third terminal run 
     ```bash 
     python test.py 
 3. It will return 
     ```bash
         Hello World
+
+# Image Links 
+Hello Service:
+https://hub.docker.com/repository/docker/harneetdhillon5/hello-service/general
+
+World Service
+https://hub.docker.com/repository/docker/harneetdhillon5/world-service/general
