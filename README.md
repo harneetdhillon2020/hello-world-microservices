@@ -1,10 +1,12 @@
-# Requirements
+# Assignment 1: Hello World Microservice
+## Requirements
 - Download Docker
 - Download Minikube
 - Download Python
+- Download Flask
 - Download Git
 
-# Running
+## Running
 1. Open Docker.
 2. Clone the repository.
 3. Build the Docker images:
@@ -18,6 +20,9 @@
 
 
 5. Update the `world-deployment.yaml` and `hello-deployment.yaml` files with your Docker Hub username for the image.
+    ```bash
+        image: <your-dockerhub-username>/hello-service:latest
+
 
 6. Build the docker images
     ```bash 
@@ -34,23 +39,75 @@
     kubectl apply -f hello-deployment.yaml
     kubectl apply -f world-deployment.yaml
 
-9. verify deployment: 
+9. Verify deployment: 
     ```bash
     kubectl get deployments
     kubectl get pods
     kubectl get svc
+10. Response:
+    ```bash 
+    harneet@Harneets-MacBook-Pro hello-world-microservices % kubectl get deployments
+    NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+    hello-deployment   1/1     1            1           2d2h
+    world-deployment   1/1     1            1           2d2h
+    harneet@Harneets-MacBook-Pro hello-world-microservices %     kubectl get pods
+    NAME                                READY   STATUS    RESTARTS      AGE
+    hello-deployment-7b56c65ddd-m99qb   1/1     Running   1 (37s ago)   2d2h
+    world-deployment-59598fdf45-5vj69   1/1     Running   1 (37s ago)   2d2h
+    harneet@Harneets-MacBook-Pro hello-world-microservices %     kubectl get svc
+    NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+    hello-service   NodePort    10.102.34.154    <none>        5000:30793/TCP   2d2h
+    kubernetes      ClusterIP   10.96.0.1        <none>        443/TCP          2d2h
+    world-service   NodePort    10.111.127.213   <none>        5001:30128/TCP   2d2h
 
-10. Launch Services
+
+11. Launch Services On Separate Terminals
     ```bash 
     minikube service hello-service 
     minikube service world-service 
 
-11. Acccessing Endpoints<p>
-type  ```/hello``` at the end of the url and you will see a "Hello" message <p>
-type ```/world``` at the end of the url and you will see a "World" message
+12. Response:
+    ```bash
+        harneet@Harneets-MacBook-Pro hello-world-microservices %     minikube service hello-service 
+    |-----------|---------------|-------------|---------------------------|
+    | NAMESPACE |     NAME      | TARGET PORT |            URL            |
+    |-----------|---------------|-------------|---------------------------|
+    | default   | hello-service |        5000 | http://192.168.49.2:30793 |
+    |-----------|---------------|-------------|---------------------------|
+    🏃  Starting tunnel for service hello-service.
+    |-----------|---------------|-------------|------------------------|
+    | NAMESPACE |     NAME      | TARGET PORT |          URL           |
+    |-----------|---------------|-------------|------------------------|
+    | default   | hello-service |             | http://127.0.0.1:49702 |
+    |-----------|---------------|-------------|------------------------|
+    🎉  Opening service default/hello-service in default browser...
+    ❗  Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
+
+    harneet@Harneets-MacBook-Pro hello-world-microservices % minikube service world-service
+    |-----------|---------------|-------------|---------------------------|
+    | NAMESPACE |     NAME      | TARGET PORT |            URL            |
+    |-----------|---------------|-------------|---------------------------|
+    | default   | world-service |        5001 | http://192.168.49.2:30128 |
+    |-----------|---------------|-------------|---------------------------|
+    🏃  Starting tunnel for service world-service.
+    |-----------|---------------|-------------|------------------------|
+    | NAMESPACE |     NAME      | TARGET PORT |          URL           |
+    |-----------|---------------|-------------|------------------------|
+    | default   | world-service |             | http://127.0.0.1:49768 |
+    |-----------|---------------|-------------|------------------------|
+    🎉  Opening service default/world-service in default browser...
+    ❗  Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
 
 
-# Testing
+    
+
+12. Acccessing Services<p>
+type  ```/hello``` at the end of the hello service url and you will see a "Hello" message <p>
+type ```/world``` at the end of the  world service url and you will see a "World" message
+
+
+
+## Testing With Port Forwarding
 1. Enable port forwarding on separate terminals
     ```bash 
     kubectl port-forward service/hello-service 5000:5000
@@ -62,7 +119,7 @@ type ```/world``` at the end of the url and you will see a "World" message
     ```bash
         Hello World
 
-# Image Links 
+## Image Links 
 Hello Service:
 https://hub.docker.com/repository/docker/harneetdhillon5/hello-service/general
 
